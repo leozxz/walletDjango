@@ -146,7 +146,6 @@
                     <h1 class="h3 mb-4 text-gray-800">Comprar</h1>
                      <form action="/dashboard/comprar/" method="post">
                          <div id="div1">
-			                <h1>Conversão de real para criptomoedas</h1>
                              {% csrf_token %}
 
                              <div class="form-row">
@@ -167,8 +166,8 @@
                                 <i class="fas fa-exchange-alt"></i>
                                 <div class="col">
                                     <h5 style="text-align: center">Real R$</h5>
-                                    <input type="text" class="form-control" id="valor_real" name="valor_real" placeholder="Adicione o valor em R$">
-
+                                    <input type="text" class="form-control" id="real" name="real" placeholder="Adicione o valor em R$">
+                                    <input type="text" id="cripto" name="cripto" value="">
                                 </div>
                          </div>
 
@@ -186,9 +185,12 @@
                              </div>
                         </div>
                          </div>
+                         <span id="rs" style="font-size: 25px"></span>
+                         <span id="criptoSpan" style="font-size: 25px" name="criptoSpan"></span>
+
                      </form>
-                     <span id="rs" style="font-size: 25px"></span>
-                    <span id="valor_criptomoeda" style="font-size: 25px"></span>
+
+                   <!-- <span id="valor_criptomoeda" style="font-size: 25px"></span> -->
 
                 </div>
             </div>
@@ -231,8 +233,7 @@
             var ripple = 1.62;
             var tether = 5.4;
 
-
-			valor = parseFloat(document.getElementById("valor_real").value);
+			valor = parseFloat(document.getElementById("real").value);
 			var opcao = document.getElementById("opcoes").value;
 
 
@@ -241,26 +242,33 @@
 			}
 
 			if(opcao==1){
-				document.getElementById("valor_criptomoeda").innerHTML = (valor/bitcoin).toFixed(5);
+				document.getElementById("cripto").innerHTML = (valor/bitcoin).toFixed(5);
+				document.getElementById("criptoSpan").innerHTML = (valor/bitcoin).toFixed(5);
                 document.getElementById("rs").innerText = "BTC";
 			}
 
 			if(opcao==2){
-				document.getElementById("valor_criptomoeda").innerHTML = (valor/ethereum).toFixed(5);
+				document.getElementById("cripto").innerHTML = (valor/ethereum).toFixed(5);
+				document.getElementById("criptoSpan").innerHTML = (valor/ethereum).toFixed(5);
                 document.getElementById("rs").innerText = "ETH";
 			}
 
 			if(opcao==3){
-				document.getElementById("valor_criptomoeda").innerHTML = (valor/ripple).toFixed(5);
+				document.getElementById("cripto").innerHTML = (valor/ripple).toFixed(5);
+				document.getElementById("criptoSpan").innerHTML = (valor/ripple).toFixed(5);
                 document.getElementById("rs").innerText = "XRP";
 			}
 
             if(opcao==4){
-				document.getElementById("valor_criptomoeda").innerHTML = (valor/tether).toFixed(5);
+				document.getElementById("cripto").innerHTML = (valor/tether).toFixed(5);
+				document.getElementById("criptoSpan").innerHTML = (valor/tether).toFixed(5);
                 document.getElementById("rs").innerText = "USDT";
 			}
 
 			}
+
+
+
 
 
 	</script>
