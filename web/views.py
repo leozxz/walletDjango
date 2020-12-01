@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
+from .models import Transacao
+from .forms import TransacaoForm
 
 
 
@@ -66,11 +68,27 @@ def register(request):
 
 @login_required(login_url='/login/')
 def comprar(request):
-    return render(request, 'comprar.html')
+    if request.method == 'POST':
+
+        form = TransacaoForm(request.POST)
+        if form.is_valid():
+            real = form['real'].value()
+            cripto = form['cripto'].value()
+            transacao = Transacao(real=real, cripto=cripto)
+            transacao.save()
+            return redirect('carteira')
+        else:
+            messages.error(request, 'Algo deu errado!')
+            return redirect('/dashboard/comprar')
+    else:
+        transacoes = Transacao.objects.all()
+
+    return render(request, 'comprar.html', {'transacoes':transacoes})
 
 @login_required(login_url='/login/')
 def vender(request):
     return render(request, 'vender.html')
 @login_required(login_url='/login/')
 def carteira(request):
-    return render(request, 'carteira.html')
+    valor = Transacao.objects.get(id=1)
+    return render(request, 'carteira.html', {'valor':valor})
